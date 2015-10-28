@@ -1,7 +1,7 @@
-#import donor
+#import Donor
 #import donation
 
-type_of_register=["Donor","Donation"]
+type_of_register=["donor","donation"]
 ENTER_DATA_TEXT = "Enter"
 
 
@@ -21,7 +21,7 @@ def get_type():
         print("This can't be empty!")
         print("Which type of registration would you like to do?(Donor/Donation) ")
         get_type()
-    elif type==type_of_register[0].lower() or type==type_of_register[1].lower():
+    elif type==type_of_register[0] or type==type_of_register[1]:
         print("You choosed: ",type)
     else:
         print("You must choose from the types of above!")
