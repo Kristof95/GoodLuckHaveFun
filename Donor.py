@@ -1,4 +1,5 @@
-class Donor:
+from datetime import datetime
+class Donor_class:
 
 # variables
     name = ""
@@ -12,6 +13,7 @@ class Donor:
     expiration_of_id = ""
     email_address = ""
     mobile_number = ""
+    date_format = ""
 
 
 # lists
@@ -56,29 +58,52 @@ class Donor:
 
     def get_name(self):
         while self.name == "":
-            self.name = input("Your name:")
+            self.name = input("Name:")
             if self.name == "":
                 print("Name field cannot be empty!")
             elif not (self.valid_name()):
                 self.name = ""
 
     def check_weight(self):
-        pass
+        if not self.weight.isdigit():
+            print("Weight value should be an integer!")
+            return False
+        return True
 
-    def valid_weight(self):
-        pass
+    def get_weight(self):
+        while self.weight == "":
+            self.weight = input("Weight(kg):")
+            if self.weight == "":
+                print("Weight field cannot be empty!")
+            elif not (self.check_weight()):
+                self.weight = ""
 
     def check_gender(self):
-        pass
+        if self.gender.lower() not in self.gender_list:
+            return False
+        return True
 
-    def valid_gender(self):
-        pass
+    def get_gender(self):
+        while self.gender == "":
+            self.gender == input("Gender (F/f/M/m):")
+            if self.gender == "":
+                print("Gender field cannot be empty!")
+            elif not self.check_gender():
+                self.gender = ""
+
+    def parse_birth_of_date(self):
+        return datetime.strptime(self.date_of_birth, '%Y.%m.%d')
 
     def check_birth_of_date(self):
-        pass
-
-    def valid_check_of_date(self):
-        pass
+        date_parts = self.date_of_birht.split(".")
+        if len(date_parts) == 3:
+            for part in date_parts:
+                if not part.isdigit():
+                    print("Bad date format! It should be YYYY.MM.DD!")
+                    return False
+            return True
+        print("Bad date format! It should be YYYY.MM.DD!")
+        return False
 
     def check_last_donation_date(self):
         pass
@@ -123,6 +148,6 @@ class Donor:
         pass
 
 
-don = Donor("","","","","","","","","","","")
-don.get_name()
+# don = Donor("","","","","","","","","","","")
+# don.get_name()
 
