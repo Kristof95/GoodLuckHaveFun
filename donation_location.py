@@ -1,17 +1,19 @@
 from datetime import datetime
+import date_handle
 class Donation_class:
-    available_cities = ("miskolc", "szerencs", "sarospatak", "kazincbarcika")
+
+    available_cities = ["miskolc", "szerencs", "sarospatak", "kazincbarcika"]
 
 
     date_and_time_of_event = ""
     start_time_text = ""
     end_time_text = ""
     zip_code = ""
-    city = ""
     address = ""
     number_of_successful_donation = ""
     available_beds = ""
     planned_donor_number = ""
+    duration=0
     preparation_time = 30
     donation_time = 30
 
@@ -25,15 +27,14 @@ class Donation_class:
         self.number_of_successful_donation = number_of_successful_donation
         self.available_beds = available_beds
         self.planned_donor_number = planned_donor_number
-        self.available_cities = available_cities
 
 
     def calculate_duration_in_minutes(start, end):
         return (end - start).seconds // 60
 
-    def max_donor_number(duration_in_minutes, preparation_time, donation_time, available_beds):
-        print(((duration_in_minutes - preparation_time) / donation_time) * int(available_beds))
-        return True
+    def max_donor_number(self):
+       print (((self.duration - self.preparation_time) // self.donation_time) * int(self.available_beds), "is the maximum donor number")
+       return True
 
 
     def check_zip_code(self):
@@ -68,7 +69,7 @@ class Donation_class:
 
 
     def validate_date_and_time_of_event(self):
-        date_event = self.parse_date()
+        date_event = date_handle.parse_date(self.date_and_time_of_event)
         date_and_time_of_event = date_event - datetime.now()
         if date_and_time_of_event.days < 10:
             print("The event should be kept after 10 days")
@@ -94,15 +95,14 @@ class Donation_class:
             return False
         return True
 
-
     def validate_city(self):
         if self.city.lower() not in self.available_cities:
-            print("Not good city")
+            print("The city is not in the list")
             return False
         return True
 
-    def get_donation_success_rate(planned_donor_number, number_of_successful_donation_string):
-        rate = number_of_successful_donation_string / planned_donor_number
+    def get_donation_success_rate(self):
+        rate = int(self.number_of_successful_donation)/ int(self.planned_donor_number)
 
         if rate < 0.2:
             print ("Unsuccessful, not worth to organise there again.")
@@ -118,7 +118,7 @@ class Donation_class:
     def get_date_and_time_of_event(self):
         while self.date_and_time_of_event == "":
             self.date_and_time_of_event = input("Event day:")
-            if not (self.check_date_and_time_of_event()and self.validate_date_and_time_of_event()):
+            if not (date_handle.check_date(self.date_and_time_of_event)and self.validate_date_and_time_of_event()):
                 self.date_and_time_of_event = ""
 
 
@@ -160,30 +160,50 @@ class Donation_class:
             if not (self.check_planned_donor_number()):
                 self.planned_donor_number = ""
 
+    def calculate_duration(self):
+        self.get_start_time_text()
+        self.get_end_time_text()
+        start_time=self.start_time_text.split(":")
+        end_time=self.end_time_text.split(":")
+        duration=(int(end_time[0])-int(start_time[0]))*60+int(end_time[1])-int(start_time[1])
+        if duration<0:
+            print("The end time must be later than start time!")
+            self.start_time_text=""
+            self.end_time_text=""
+            self.calculate_duration()
+        elif duration==0:
+            print("There must be some time!")
+            self.start_time_text=""
+            self.end_time_text=""
+            self.calculate_duration()
+        elif duration>0:
+            print(duration, "minutes the duration of the event.")
+            self.duration=duration
+
+
     def get_start_time_text(self):
         while self.start_time_text == "":
             self.start_time_text = input("Start time:")
-            if not (self.check_time_text()):
+            if not (date_handle.check_time_text(self.start_time_text)):
                 self.start_time_text = ""
 
-    def get_end_time(self):
+    def get_end_time_text(self):
         while self.end_time_text == "":
             self.end_time_text = input("End time:")
-            if not (self.check_time_text()):
+            if not (date_handle.check_time_text(self.end_time_text)):
                 self.end_time_text = ""
 
 
-    #duration = calculate_duration_in_minutes(start_time, end_time)
-
-
-    #max_donor_number(duration, preparation_time, donation_time, available_beds)
-    #get_donation_success_rate(int(planned_donor_number), int(number_of_successful_donation))
-
-
-
-
-don = Donation_class("","","","","","","","","","")
-don.get_date_and_time_of_event()
-don.get_start_time_text()
-start_time_string=don.start_time_text
-don.start_time=don.parse_time_text(start_time_string)
+def main():
+    don = Donation_class("","","","","","","","","","")
+    don.get_date_and_time_of_event()
+    don.get_zip_code()
+    don.get_city()
+    don.get_address()
+    don.get_number_of_successful_donation()
+    don.get_available_beds()
+    don.get_planned_donor_number()
+    don.calculate_duration()
+    don.max_donor_number()
+    don.get_donation_success_rate()
+main()
