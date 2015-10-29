@@ -206,4 +206,3 @@ def main():
     don.calculate_duration()
     don.max_donor_number()
     don.get_donation_success_rate()
-main()

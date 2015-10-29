@@ -1,6 +1,7 @@
 from datetime import datetime
 import time
 from random import randint
+import date_handle
 
 class Donor_class:
 
@@ -17,6 +18,8 @@ class Donor_class:
     email_address = ""
     mobile_number = ""
     date_format = ""
+    age=0
+    birth_date_string=""
 
 
 # lists
@@ -40,13 +43,8 @@ class Donor_class:
         self.gender = gender
 
     def parse_name(self):
-        splitted = self.name.split(",")
-        full_name = {}
-        if len(splitted) > 0:
-            full_name['first_name'] = splitted[0]
-        if len(splitted) > 1:
-            full_name['last_name'] = splitted[1]
-        return full_name
+        splitted = self.name.split(" ")
+        return splitted
 
     def valid_name(self):
         name_parts = self.name.split(" ")
@@ -76,9 +74,12 @@ class Donor_class:
     def valid_weight(self):
         if not self.check_weight():
             return False
-        if int(self.weight) < 0:
+        elif int(self.weight) < 0:
             print("Weight should be a positive integer!")
             return False
+        elif int(self.weight)<50:
+            print("You are too light!")
+            exit()
         return True
 
 
@@ -105,56 +106,48 @@ class Donor_class:
             elif not self.check_gender():
                 self.gender = ""
 
-    def parse_birth_of_date(self):
-        return datetime.strptime(self.date_of_birth, '%Y.%m.%d')
-
-    def check_date(self):
-        date_parts = self.date_of_birth.split(".")
-        if len(date_parts) == 3:
-            for part in date_parts:
-                if not part.isdigit():
-                    print("Bad date format! It should be YYYY.MM.DD!")
-                    return False
-                if int(date_parts[0]) > int(datetime.now().year):
-                    print("Year is incorrect year cannot be bigger than present year!")
-                    return False
-                if int(date_parts[1]) > 12:
-                    print("Date incorrect month cannot be bigger than 12!")
-                    return False
-                if int(date_parts[1]) < 0:
-                    print("Month is incorrect it cannot be minus!\nIt must be a positive integer!")
-                    return False
-                if int(date_parts[1]) == 2 and int(date_parts[2]) > 29:
-                    print("Month is incorrect february month has 29 days. ")
-                    return False
-                if int(date_parts[2]) > 31:
-                    print("Day is incorrect cannot be bigger than 31!")
-                    return False
+    def check_birth_date(self):
+        self.birth_date_string=datetime.strptime(self.date_of_birth, '%Y.%m.%d')
+        self.age=(datetime.now()-self.birth_date_string).days//365
+        if self.birth_date_string>datetime.now():
+            print("I think you was born before now!")
+            return False
+        elif self.age<18:
+            print("You are too young, you need to be at least 18 years old.")
+            exit()
+        else:
             return True
-        print("Bad date format! It should be YYYY.MM.DD!")
-        return False
+
+
 
     def get_birth_of_date(self):
         while self.date_of_birth == "":
             self.date_of_birth = input("Date of birth(YYYY.MM.DD):")
             if self.date_of_birth == "":
                 print("Date of birth field cannot be empty!")
-            elif not (self.check_date()):
+            elif not (date_handle.check_date(self.date_of_birth)and self.check_birth_date()):
                 self.date_of_birth = ""
 
-    def check_last_donation_date(self):
-        return self.check_date()
+
 
     def valid_last_donation_date(self): #Peter
-        pass
+        donationdate=datetime.strptime(self.last_donation_date, '%Y.%m.%d')
+        if donationdate>datetime.now():
+            print("The donation must be earlier than the today date!")
+            return False
+        time_from_last_donation=(datetime.now()-donationdate).days
+        if time_from_last_donation<90:
+            print("You need at least 90 days")
+            return False
+        return True
 
-    def get_last_donation_date(self):  #A cikluson belul meg hivd meg majd a valid_last_donation_date-t
+    def get_last_donation_date(self):
         while self.last_donation_date == "":
             self.last_donation_date = input("Last donation date:")
-        if self.last_donation_date == "":
-            print("Last donation field cannot be empty!")
-        elif not self.check_last_donation_date():
-            self.last_donation_date = ""
+            if self.last_donation_date == "":
+                print("Last donation field cannot be empty!")
+            elif not (date_handle.check_date(self.last_donation_date) and self.valid_last_donation_date()):
+                self.last_donation_date = ""
 
     def check_was_sick(self):
         if self.was_sick.lower() not in self.was_sick_list:
@@ -211,18 +204,21 @@ class Donor_class:
         elif not self.check_blood_type():
             self.blood_type = ""
 
-    def check_expiration_of_id(self):
-        return self.check_date()
 
-    def valid_expiration_of_id(self): #Peter
-        pass
+    def valid_expiration_of_id(self):
+        expiration=datetime.strptime(self.expiration_of_id, '%Y.%m.%d')
+        if expiration<datetime.now():
+            print("Your ID has expired!")
+            exit()
+        return True
+
 
     def get_expiration_of_id(self):  # ide is majd hivd meg a valid_expiration_of_id-t
         while self.expiration_of_id == "":
             self.expiration_of_id = input("Expiration of id:")
             if self.expiration_of_id == "":
                 print("Expiration of id filed cannot be empty!")
-            elif not self.check_expiration_of_id():
+            elif not (date_handle.check_date(self.expiration_of_id)and self.valid_expiration_of_id()):
                 self.expiration_of_id = ""
 
     def valid_email_address(self):
@@ -234,6 +230,9 @@ class Donor_class:
             return False
         if len(self.email_address) < 6:
             print("Email address is too short!")
+            return False
+        if self.email_address[0]=="@":
+            print("This is not a valid e-mail address!")
             return False
         return True
 
@@ -282,15 +281,27 @@ class Donor_class:
             print("Your hemoglobin level is too low!")
             time.sleep(2)
             quit()
+    def write_out_of_donor_datas(self):
+        name=self.parse_name()
+        if len(name)==2:
+            print(name[1], ",", name[0])
+        elif len(name)==3:
+            print(name[2],",",name[1],",",name[0])
+        print(str(self.weight),"kg")
+        print(self.date_of_birth[0:4],".",self.date_of_birth[5:7],".",self.date_of_birth[8:10],"-",self.age,"years old")
+        print(self.email_address)
 
-don = Donor_class("", "", "", "", "", "", "", "", "", "", "")
-# don.get_name()
-# don.get_weight()
-# don.get_birth_of_date()
-# don.get_was_sick()
-# don.get_gender()
-# don.get_unique_id()
-# don.get_hemoglobin()
-# don.get_email_address()
-# don.get_mobile_number()
-
+def main():
+    don = Donor_class("", "", "", "", "", "", "", "", "", "", "")
+    don.get_name()
+    don.get_weight()
+    don.get_birth_of_date()
+    don.get_last_donation_date()
+    don.get_was_sick()
+    don.get_gender()
+    don.get_unique_id()
+    don.get_expiration_of_id()
+    don.get_hemoglobin()
+    don.get_email_address()
+    don.get_mobile_number()
+    don.write_out_of_donor_datas()

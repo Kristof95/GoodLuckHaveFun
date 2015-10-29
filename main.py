@@ -1,5 +1,5 @@
 import Donor
-#import donation
+import donation_location
 
 type_of_register=["donor","donation"]
 ENTER_DATA_TEXT = "Enter"
@@ -25,6 +25,8 @@ def get_type():
         print("You choosed: ",type)
         if type=="donor":
             Donor.main()
+        else:
+            donation_location.main()
     else:
         print("You must choose from the types of above!")
         print("Which type of registration would you like to do?(Donor/Donation) ")

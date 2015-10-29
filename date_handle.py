@@ -12,9 +12,6 @@ def check_date(date):
             if not part.isdigit():
                 print("Bad date format! It should be YYYY.MM.DD!")
                 return False
-            if int(date_parts[0]) > int(datetime.now().year):
-                print("Year is incorrect: year cannot be bigger than present year!")
-                return False
             if int(date_parts[1]) > 12:
                 print("Date incorrect: month cannot be bigger than 12!")
                 return False
