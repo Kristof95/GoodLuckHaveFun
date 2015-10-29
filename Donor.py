@@ -125,7 +125,10 @@ class Donor_class:
                     print("Month is incorrect it cannot be minus!\nIt must be a positive integer!")
                     return False
                 if int(date_parts[1]) == 2 and int(date_parts[2]) > 29:
-                    print("Month is incorrect february has 29 days. ")
+                    print("Month is incorrect february month has 29 days. ")
+                    return False
+                if int(date_parts[2]) > 31:
+                    print("Day is incorrect cannot be bigger than 31!")
                     return False
             return True
         print("Bad date format! It should be YYYY.MM.DD!")
@@ -140,10 +143,18 @@ class Donor_class:
                 self.date_of_birth = ""
 
     def check_last_donation_date(self):
+        return self.check_date()
+
+    def valid_last_donation_date(self): #Peter
         pass
 
-    def valid_last_donation_date(self):
-        pass
+    def get_last_donation_date(self):  #A cikluson belul meg hivd meg majd a valid_last_donation_date-t
+        while self.last_donation_date == "":
+            self.last_donation_date = input("Last donation date:")
+        if self.last_donation_date == "":
+            print("Last donation field cannot be empty!")
+        elif not self.check_last_donation_date():
+            self.last_donation_date = ""
 
     def check_was_sick(self):
         if self.was_sick.lower() not in self.was_sick_list:
@@ -161,41 +172,125 @@ class Donor_class:
             if self.was_sick == "y":
                 print("Sorry, you cannot be a donor!")
                 quit()
-        return self.was_sick
+            return True
 
     def check_unique_id(self):
-        pass
+        if (len(self.unique_id)) < 8:
+            print("Unique id is too short!")
+            return False
+        if len(self.unique_id) > 8:
+            print("Unique id is too long!")
+            return False
+        if not (self.unique_id[:6].isdigit()) and not (self.unique_id[6:].isalpha()):
+            print("Identity card should be 6 digits and 2 letters!")
+            return False
+        if not (self.unique_id[:6].isalpha()) and not (self.unique_id[6:].isdigit()):
+            print("Passport card should be 6 letters and 2 digits!")
+            return False
+        return True
 
-    def valid_unique_id(self):
-        pass
+    def get_unique_id(self):
+        while self.unique_id == "":
+            self.unique_id = input("Identity card(6 digit + 2 letter) or passport card(6 letter + 2 digit):")
+        if self.unique_id == "":
+            print("ID field cannot be empty!")
+        elif self.check_unique_id():
+            self.unique_id = ""
 
     def check_blood_type(self):
-        pass
+        if self.blood_type.lower() not in self.blood_type_list:
+            print("You can choose: a, b, ab, 0!")
+            return False
+        return True
+
+    def get_blood_type(self):
+        while self.blood_type == "":
+            self.blood_type = input("Blood type(a, b, ab, 0):")
+        if self.blood_type == "":
+            print("Blood type field cannot be empty!")
+        elif not self.check_blood_type():
+            self.blood_type = ""
 
     def check_expiration_of_id(self):
+        return self.check_date()
+
+    def valid_expiration_of_id(self): #Peter
         pass
 
-    def valid_expiration_of_id(self):
-        pass
-
-    def check_email_address(self):
-        pass
+    def get_expiration_of_id(self):  # ide is majd hivd meg a valid_expiration_of_id-t
+        while self.expiration_of_id == "":
+            self.expiration_of_id = input("Expiration of id:")
+            if self.expiration_of_id == "":
+                print("Expiration of id filed cannot be empty!")
+            elif not self.check_expiration_of_id():
+                self.expiration_of_id = ""
 
     def valid_email_address(self):
-        pass
+        if not (self.email_address.endswith('.com')) or not (self.email_address.endswith('.com')):
+            print("Email address must ends with .hu or .com!")
+            return False
+        if '@' not in self.email_address:
+            print("Email must contain a @!")
+            return False
+        if len(self.email_address) < 6:
+            print("Email address is too short!")
+            return False
+        return True
 
-    def check_mobile_number(self):
-        pass
+    def get_email_address(self):
+        while self.email_address == "":
+            self.email_address = input("Email address:")
+        if self.email_address == "":
+            print("Email address field cannot be empty!")
+        elif not self.valid_email_address():
+            self.email_address = ""
 
     def valid_mobile_number(self):
-        pass
+        if not (self.mobile_number.startswith("+36") or self.mobile_number.startswith("06")):
+            print("Mobile number must start with +36 or 06!")
+            return False
+        check_digit = 0
+        if self.mobile_number.startswith("+"):
+            check_digit = 1
+        mobile_nr_check = self.mobile_number[check_digit:]
+        if not mobile_nr_check.isdigit():
+            print("Mobile number should be integer!")
+            return False
+        if len(mobile_nr_check) < 11:
+            print("Mobile number is too short!")
+            return False
+        if len(mobile_nr_check) > 11:
+            print("Mobile number is too long!")
+            return False
+        if not mobile_nr_check[2:4] == "30" or mobile_nr_check[2:4] == "20" or mobile_nr_check[2:4] == "70":
+            print("Region number should be 30, 20, 70")
+            return False
+        return True
+
+    def get_mobile_number(self):
+        while self.mobile_number == "":
+            self.mobile_number = input("Mobile number (e.g 06301234567):")
+            if self.mobile_number == "":
+                print("Mobile number field cannot be empty!")
+            elif not self.valid_mobile_number():
+                self.mobile_number = ""
 
     def get_hemoglobin(self):
         if randint(80, 201) > 110:
-            return "Cool ! You're ready for donation."
+            print("Cool ! You're ready for donation.")
         else:
+            print("Your hemoglobin level is too low!")
+            time.sleep(2)
             quit()
 
-# don = Donor_class("","","","","","","","","","","")
-# don.get_was_sick()
+don = Donor_class("", "", "", "", "", "", "", "", "", "", "")
 # don.get_name()
+# don.get_weight()
+# don.get_birth_of_date()
+# don.get_was_sick()
+# don.get_gender()
+# don.get_unique_id()
+# don.get_hemoglobin()
+# don.get_email_address()
+# don.get_mobile_number()
+
