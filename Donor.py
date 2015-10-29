@@ -1,4 +1,7 @@
 from datetime import datetime
+import time
+from random import randint
+
 class Donor_class:
 
 # variables
@@ -23,10 +26,10 @@ class Donor_class:
 
 
 # functions
-    def __init__(self,  name, weight, date_of_birth, unique_id, blood_type, expiration_of_id, email_address, mobile_number,last_donation_date, was_sick, gender):
+    def __init__(self,  name, weight, date_of_birth, unique_id, blood_type, expiration_of_id, email_address, mobile_number, last_donation_date, was_sick, gender):
         self.name = name
         self.weight = weight
-        self.date_of_birht = date_of_birth
+        self.date_of_birth = date_of_birth
         self.unique_id = unique_id
         self.blood_type = blood_type
         self.expiration_of_id = expiration_of_id
@@ -66,9 +69,18 @@ class Donor_class:
 
     def check_weight(self):
         if not self.weight.isdigit():
-            print("Weight value should be an integer!")
+            print("Weight should be number!")
             return False
         return True
+
+    def valid_weight(self):
+        if not self.check_weight():
+            return False
+        if int(self.weight) < 0:
+            print("Weight should be a positive integer!")
+            return False
+        return True
+
 
     def get_weight(self):
         while self.weight == "":
@@ -76,6 +88,8 @@ class Donor_class:
             if self.weight == "":
                 print("Weight field cannot be empty!")
             elif not (self.check_weight()):
+                self.weight = ""
+            elif not (self.valid_weight()):
                 self.weight = ""
 
     def check_gender(self):
@@ -85,7 +99,7 @@ class Donor_class:
 
     def get_gender(self):
         while self.gender == "":
-            self.gender == input("Gender (F/f/M/m):")
+            self.gender = input("Gender (f/m):")
             if self.gender == "":
                 print("Gender field cannot be empty!")
             elif not self.check_gender():
@@ -94,16 +108,36 @@ class Donor_class:
     def parse_birth_of_date(self):
         return datetime.strptime(self.date_of_birth, '%Y.%m.%d')
 
-    def check_birth_of_date(self):
-        date_parts = self.date_of_birht.split(".")
+    def check_date(self):
+        date_parts = self.date_of_birth.split(".")
         if len(date_parts) == 3:
             for part in date_parts:
                 if not part.isdigit():
                     print("Bad date format! It should be YYYY.MM.DD!")
                     return False
+                if int(date_parts[0]) > int(datetime.now().year):
+                    print("Year is incorrect year cannot be bigger than present year!")
+                    return False
+                if int(date_parts[1]) > 12:
+                    print("Date incorrect month cannot be bigger than 12!")
+                    return False
+                if int(date_parts[1]) < 0:
+                    print("Month is incorrect it cannot be minus!\nIt must be a positive integer!")
+                    return False
+                if int(date_parts[1]) == 2 and int(date_parts[2]) > 29:
+                    print("Month is incorrect february has 29 days. ")
+                    return False
             return True
         print("Bad date format! It should be YYYY.MM.DD!")
         return False
+
+    def get_birth_of_date(self):
+        while self.date_of_birth == "":
+            self.date_of_birth = input("Date of birth(YYYY.MM.DD):")
+            if self.date_of_birth == "":
+                print("Date of birth field cannot be empty!")
+            elif not (self.check_date()):
+                self.date_of_birth = ""
 
     def check_last_donation_date(self):
         pass
@@ -112,10 +146,22 @@ class Donor_class:
         pass
 
     def check_was_sick(self):
-        pass
+        if self.was_sick.lower() not in self.was_sick_list:
+            print("You can choose between: y/n")
+            return False
+        return True
 
-    def valid_was_sick(self):
-        pass
+    def get_was_sick(self):
+        while self.was_sick == "":
+            self.was_sick = input("Was he/she sick in the last month?(y/n):")
+            if self.was_sick == "":
+                print("Was he/she sick in the last month' cannot be empty!")
+            elif not (self.check_was_sick()):
+                self.was_sick = ""
+            if self.was_sick == "y":
+                print("Sorry, you cannot be a donor!")
+                quit()
+        return self.was_sick
 
     def check_unique_id(self):
         pass
@@ -124,9 +170,6 @@ class Donor_class:
         pass
 
     def check_blood_type(self):
-        pass
-
-    def valid_blood_type(self):
         pass
 
     def check_expiration_of_id(self):
@@ -147,7 +190,13 @@ class Donor_class:
     def valid_mobile_number(self):
         pass
 
+    def get_hemoglobin(self):
+        if randint(80, 201) > 110:
+            return "Cool ! You're ready for donation."
+        else:
+            quit()
 
-# don = Donor("","","","","","","","","","","")
-# don.get_name()
-
+def main():
+    don = Donor_class("","","","","","","","","","","")
+    don.get_was_sick()
+    don.get_name()
