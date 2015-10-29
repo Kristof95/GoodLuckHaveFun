@@ -196,6 +196,7 @@ class Donor_class:
         else:
             quit()
 
-# don = Donor_class("","","","","","","","","","","")
-# don.get_was_sick()
-# don.get_name()
+def main():
+    don = Donor_class("","","","","","","","","","","")
+    don.get_was_sick()
+    don.get_name()

@@ -1,4 +1,4 @@
-#import Donor
+import Donor
 #import donation
 
 type_of_register=["donor","donation"]
@@ -23,6 +23,8 @@ def get_type():
         get_type()
     elif type==type_of_register[0] or type==type_of_register[1]:
         print("You choosed: ",type)
+        if type=="donor":
+            Donor.main()
     else:
         print("You must choose from the types of above!")
         print("Which type of registration would you like to do?(Donor/Donation) ")
