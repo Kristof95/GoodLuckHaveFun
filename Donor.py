@@ -25,7 +25,7 @@ class Donor_class:
 # lists
     was_sick_list = ('y', 'n')
     gender_list = ('f', 'm')
-    blood_type_list = ('a', 'b', 'ab', '0')
+    blood_type_list = ('+a','-a','+b','-b','+ab','-ab','+0','-0')
 
 
 # functions
@@ -79,7 +79,8 @@ class Donor_class:
             return False
         elif int(self.weight)<50:
             print("You are too light!")
-            exit()
+            return False
+            #exit()
         return True
 
 
@@ -95,6 +96,7 @@ class Donor_class:
 
     def check_gender(self):
         if self.gender.lower() not in self.gender_list:
+            print ("Only F or M")
             return False
         return True
 
@@ -114,7 +116,8 @@ class Donor_class:
             return False
         elif self.age<18:
             print("You are too young, you need to be at least 18 years old.")
-            exit()
+            return False
+            #exit()
         else:
             return True
 
@@ -164,23 +167,27 @@ class Donor_class:
                 self.was_sick = ""
             if self.was_sick == "y":
                 print("Sorry, you cannot be a donor!")
-                quit()
+                return False
+                #quit()
             return True
 
     def check_unique_id(self):
         if (len(self.unique_id)) < 8:
             print("Unique id is too short!")
             return False
-        if len(self.unique_id) > 8:
+        elif len(self.unique_id) > 8:
             print("Unique id is too long!")
             return False
-        if not (self.unique_id[:6].isdigit()) and not (self.unique_id[6:].isalpha()):
-            print("Identity card should be 6 digits and 2 letters!")
-            return False
-        if not (self.unique_id[:6].isalpha()) and not (self.unique_id[6:].isdigit()):
-            print("Passport card should be 6 letters and 2 digits!")
-            return False
-        return True
+        elif self.unique_id[:6].isdigit() and  self.unique_id[6:].isalpha():
+            #print("Identity card should be 6 digits and 2 letters!")
+            print("This is identity card!")
+            return True
+        elif self.unique_id[:6].isalpha() and self.unique_id[6:].isdigit():
+            print("This is passport!")
+            #print("Passport card should be 6 letters and 2 digits!")
+            return True
+        print("Identity card(6 digit + 2 letter) or passport card(6 letter + 2 digit)")
+        return False
 
     def get_unique_id(self):
         while self.unique_id == "":
@@ -192,7 +199,7 @@ class Donor_class:
 
     def check_blood_type(self):
         if self.blood_type.lower() not in self.blood_type_list:
-            print("You can choose: a, b, ab, 0!")
+            print("You can choose: +a,-a,+b,-b,+ab,-ab,+0,-0!")
             return False
         return True
 
@@ -209,7 +216,8 @@ class Donor_class:
         expiration=datetime.strptime(self.expiration_of_id, '%Y.%m.%d')
         if expiration<datetime.now():
             print("Your ID has expired!")
-            exit()
+            return False
+            #exit()
         return True
 
 
@@ -222,14 +230,11 @@ class Donor_class:
                 self.expiration_of_id = ""
 
     def valid_email_address(self):
-        if not (self.email_address.endswith('.com')) or not (self.email_address.endswith('.com')):
+        if not (self.email_address.endswith('.hu') or self.email_address.endswith('.com')):
             print("Email address must ends with .hu or .com!")
             return False
         if '@' not in self.email_address:
             print("Email must contain a @!")
-            return False
-        if len(self.email_address) < 6:
-            print("Email address is too short!")
             return False
         if self.email_address[0]=="@":
             print("This is not a valid e-mail address!")
@@ -261,7 +266,7 @@ class Donor_class:
         if len(mobile_nr_check) > 11:
             print("Mobile number is too long!")
             return False
-        if not mobile_nr_check[2:4] == "30" or mobile_nr_check[2:4] == "20" or mobile_nr_check[2:4] == "70":
+        if not (mobile_nr_check[2:4] == "30" or mobile_nr_check[2:4] == "20" or mobile_nr_check[2:4] == "70"):
             print("Region number should be 30, 20, 70")
             return False
         return True
@@ -280,7 +285,9 @@ class Donor_class:
         else:
             print("Your hemoglobin level is too low!")
             time.sleep(2)
-            quit()
+            return False
+        return True
+            #quit()
     def write_out_of_donor_datas(self):
         name=self.parse_name()
         if len(name)==2:
