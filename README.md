@@ -1,6 +1,6 @@
 # GoodLuckHaveFun
 
-Csapatneve: GLHF azaz GoodLuckHaveFun
+Csapatneve: GLHF ( GoodLuckHaveFun)
 
 Csapattagok:
 Székely Péter
