@@ -62,7 +62,7 @@ class Donation_class:
        if self.planned_donor_number == " ":
            print("Space is not a number!")
            return False
-       if not (int(self.planned_donor_number) < 0):
+       if not (int(self.planned_donor_number) > 0):
            print("Planned donor number must be positive integer!")
            return False
        if not self.planned_donor_number.isdigit():
@@ -112,6 +112,13 @@ class Donation_class:
             print("The city is not in the list")
             return False
         return True
+
+    def valid_number_of_successful_donation(self):
+        if int(self.number_of_successful_donation) > self.maximum_donor_number:
+            print("Successful cannot exceed maximum donor number!")
+            return False
+        return True
+
 
     def get_donation_success_rate(self):
         rate = int(self.number_of_successful_donation)/ int(self.planned_donor_number)
@@ -205,12 +212,6 @@ class Donation_class:
             if not (date_handle.check_time_text(self.end_time_text)):
                 self.end_time_text = ""
 
-    def valid_number_of_successful_donation(self):
-        if int(self.number_of_successful_donation) > self.maximum_donor_number:
-            print("Successful cannot exceed maximum donor number!")
-            return False
-        return True
-
 
 def main():
     don = Donation_class("","","","","","","","","","")
@@ -218,9 +219,9 @@ def main():
     don.get_zip_code()
     don.get_city()
     don.get_address()
-    don.get_number_of_successful_donation()
     don.get_available_beds()
     don.get_planned_donor_number()
     don.calculate_duration()
     don.calculate_max_donor_number()
+    don.get_number_of_successful_donation()
     don.get_donation_success_rate()
