@@ -1,5 +1,11 @@
 from datetime import datetime
 import date_handle
+import csv
+import os
+import sys
+import string
+import random
+import uuid
 class Donation_class:
 
     available_cities = ["miskolc", "szerencs", "sarospatak", "kazincbarcika"]
@@ -213,15 +219,40 @@ class Donation_class:
                 self.end_time_text = ""
 
 
+    def csv_writer(self):
+        def my_random_string(string_length=10):
+            random = str(uuid.uuid4())
+            random = random.upper()
+            random = random.replace("-","")
+            return random[0:string_length]
+        data = [my_random_string(6),
+                self.date_and_time_of_event,
+                self.zip_code,
+                self.city,
+                self.address,
+                self.available_beds,
+                self.planned_donor_number,
+                self.number_of_successful_donation
+                ]
+        with open(os.path.join(os.path.dirname(sys.argv[0]),"Data\donations.csv"), "a") as csv_file:
+
+            writer = csv.writer(csv_file)
+            writer.writerow(data)
+
+
+
+
+
 def main():
     don = Donation_class("","","","","","","","","","")
     don.get_date_and_time_of_event()
+    don.calculate_duration()
     don.get_zip_code()
     don.get_city()
     don.get_address()
     don.get_available_beds()
     don.get_planned_donor_number()
-    don.calculate_duration()
     don.calculate_max_donor_number()
     don.get_number_of_successful_donation()
     don.get_donation_success_rate()
+    don.csv_writer()
