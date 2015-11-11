@@ -1,38 +1,55 @@
 import Donor
 import donation_location
-
-type_of_register=["donor","donation"]
-ENTER_DATA_TEXT = "Enter"
-
-
-def print_separator_line():
-    print("* "*32)
+from os import system
+import msvcrt
 
 
-def greetings():
-    print("Welcome in the donation register center!")
-    print_separator_line()
-    print("Which type of registration would you like to do?(Donor/Donation) ")
 
+def creat_menu():
+    system('cls')
+#    print('lol')
+#    system('color a')
+    print('-'*101)
+    print('-'*18+" Welcome to the coolest donor and donation event managing system "+'-'*18)
+    print('-'*101)
+    print("MAIN MENU")
+    print("\t1. Add new Donor")
+    print("\t2. Add new Donation event")
+    print("\t3. Delete Donor")
+    print("\t4. Delete Donation event")
+    print("\t5. List Donors or Donation events")
+    print("\t6. Search")
+    print("\t7. Exit")
 
-def get_type():
-    type=input().lower()
-    if type=="":
-        print("This can't be empty!")
-        print("Which type of registration would you like to do?(Donor/Donation) ")
-        get_type()
-    elif type==type_of_register[0] or type==type_of_register[1]:
-        print("You choosed: ",type)
-        if type=="donor":
-            Donor.main()
-        else:
-            donation_location.main()
+def menu_choose(choosen):
+    if choosen=='1':
+        system('cls')
+        print("New Donor")
+        Donor.main()
+    elif choosen=='2':
+        system('cls')
+        print("New Donation event")
+    elif choosen=='3':
+        system('cls')
+        print("Delete Donor")
+    elif choosen=='4':
+        system('cls')
+        print("Delete Donation event")
+    elif choosen=='5':
+        system('cls')
+        print("List Donors or Donation events")
+    elif choosen=='6':
+        system('cls')
+        print("Search")
+    elif choosen=='7':
+        system('cls')
+        print("Exit")
     else:
-        print("You must choose from the types of above!")
-        print("Which type of registration would you like to do?(Donor/Donation) ")
-        get_type()
-    pass
+        print("You must choose one!")
+
+
 
 if __name__=="__main__":
-    greetings()
-    get_type()
+    creat_menu()
+    choosen=msvcrt.getwch()
+    menu_choose(choosen)
