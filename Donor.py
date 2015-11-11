@@ -2,6 +2,9 @@ from datetime import datetime
 import time
 from random import randint
 import date_handle
+import csv
+import os
+import sys
 
 class Donor_class:
 
@@ -291,6 +294,26 @@ class Donor_class:
         print(self.date_of_birth[0:4],".",self.date_of_birth[5:7],".",self.date_of_birth[8:10],"-",self.age,"years old")
         print(self.email_address)
 
+    def write_to_csv_file(self):
+        with open(os.path.join(os.path.dirname(sys.argv[0]), "Data\donor.csv"), 'a', newline='\n') as csvfile:
+            field_names = ['name', 'weight', 'birth_date', 'last_donation_date', 'was_sick', 'gender',
+                          'unique_id', 'expiration_of_id', 'email_address', 'mobile_number']
+
+            write_to_donor_csv = csv.DictWriter(csvfile, fieldnames=field_names)
+            write_to_donor_csv.writeheader()
+            write_to_donor_csv.writerow({'name': self.name, 'weight': self.weight, 'birth_date': self.birth_date_string,
+                                         'last_donation_date': self.last_donation_date,
+                                         'was_sick': self.was_sick, 'gender': self.gender, 'unique_id': self.unique_id,
+                                         'expiration_of_id': self.expiration_of_id, 'email_address': self.email_address,
+                                         'mobile_number': self.mobile_number})
+
+    def read_donor_from_csv_file(self):
+        pass
+
+    def delete_donor_from_csv_file(self):
+        pass
+
+
 def main():
     don = Donor_class("", "", "", "", "", "", "", "", "", "", "")
     don.get_name()
@@ -305,3 +328,5 @@ def main():
     don.get_email_address()
     don.get_mobile_number()
     don.write_out_of_donor_datas()
+    don.write_to_csv_file()
+
