@@ -59,4 +59,5 @@ target/
 #Idea
 .idea/
 
-#testline
+#Data folder
+Data/

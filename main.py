@@ -1,14 +1,14 @@
 import Donor
 import donation_location
+import search
 from os import system
 import msvcrt
 
 
 
+
 def creat_menu():
     system('cls')
-#    print('lol')
-#    system('color a')
     print('-'*101)
     print('-'*18+" Welcome to the coolest donor and donation event managing system "+'-'*18)
     print('-'*101)
@@ -56,9 +56,9 @@ def search_menu():
     print("\t3. Back")
     search_type=msvcrt.getwch()
     if search_type=="1":
-        print("Donor search")
+        search.search_donor()
     elif search_type=="2":
-        print("Donation event search")
+        search.search_donation_event()
     elif search_type=="3":
         creat_menu()
     else:
@@ -66,6 +66,6 @@ def search_menu():
 
 
 
+
 if __name__=="__main__":
-    system('mkdir "Data"')
     creat_menu()
