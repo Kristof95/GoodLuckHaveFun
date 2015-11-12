@@ -232,7 +232,7 @@ class Donation_class:
                 self.address,
                 self.available_beds,
                 self.planned_donor_number,
-                self.number_of_successful_donation
+                #self.number_of_successful_donation
                 ]
         with open(os.path.join(os.path.dirname(sys.argv[0]),"Data\donations.csv"), "a") as csv_file:
 
@@ -253,6 +253,6 @@ def main():
     don.get_available_beds()
     don.get_planned_donor_number()
     don.calculate_max_donor_number()
-    don.get_number_of_successful_donation()
-    don.get_donation_success_rate()
+    #don.get_number_of_successful_donation()
+    #don.get_donation_success_rate()
     don.csv_writer()
