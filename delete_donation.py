@@ -8,7 +8,7 @@ def delete_donor_from_csv_file():
     delete_from_csv.seek(0)
     for i in read_csv_line:
         splited=i.split(',')
-        if del_according_ID!=splited[6]:
+        if del_according_ID!=splited[7]:
             delete_from_csv.write(i)
         else:
             sure_about_delete(delete_from_csv,i)
