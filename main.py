@@ -1,12 +1,14 @@
 import Donor
 import donation_location
 import search
+import delete_donation
 #from os import system
 import msvcrt
 import os
 import sys
 import csv
 
+menu_choosen=['1','2','3','4','5','6','7']
 
 def first_init():
     if os.path.isfile(os.path.join(os.path.dirname(os.sys.argv[0]), "Data\donor.csv")):
@@ -14,7 +16,7 @@ def first_init():
     else:
         os.system('mkdir Data')
         os.system('fsutil file createnew Data\donor.csv 0')
-        os.system('fsutil file createnew Data\donotions.csv 0')
+        os.system('fsutil file createnew Data\donations.csv 0')
         with open(os.path.join(os.path.dirname(sys.argv[0]), "Data\donor.csv"), 'a', newline='\n') as csvfile:
             write_to_donor_csv = csv.writer(csvfile)
             write_to_donor_csv.writerow(["name","weight","date_of_birth","age","last_donation_date","sickness",
@@ -40,23 +42,48 @@ def creat_menu():
     print("\t6. Search")
     print("\t7. Exit")
     choosen=msvcrt.getwch()
-    menu_choose(choosen)
+    if choosen not in menu_choosen:
+        creat_menu()
+    else:
+        menu_choose(choosen)
 
 def menu_choose(choosen):
     if choosen=='1':
         os.system('cls')
         print("New Donor")
         Donor.main()
+        print('1. New add donor')
+        print('2. Back')
+        add_end('donor')
     elif choosen=='2':
         os.system('cls')
         print("New Donation event")
         donation_location.main()
+        print('1. New add donation event')
+        print('2. Back')
+        add_end('donation')
     elif choosen=='3':
         os.system('cls')
         print("Delete Donor")
+        delete_donation.delete_donor_from_csv_file()
+        print("1. Delete another one")
+        print("2. Back")
+        choosen=msvcrt.getwch()
+        if choosen=='1':
+            menu_choose(3)
+        elif choosen=='2':
+            creat_menu()
     elif choosen=='4':
         os.system('cls')
         print("Delete Donation event")
+        delete_donation.delete_donations_from_csv_file()
+        print("1. Delete another one")
+        print("2. Back")
+        choosen=msvcrt.getwch()
+        if choosen=='1':
+            menu_choose(4)
+        elif choosen=='2':
+            creat_menu()
     elif choosen=='5':
         os.system('cls')
         print("List Donors or Donation events")
@@ -82,6 +109,20 @@ def search_menu():
         creat_menu()
     else:
         search_menu()
+
+def add_end(kind):
+    get=msvcrt.getwch()
+    if get=='1':
+        if kind=='donor':
+            menu_choose('1')
+        elif kind=='donation':
+            menu_choose('2')
+    elif get=='2':
+        creat_menu()
+    else:
+        print('Choose one!')
+        add_end(kind)
+
 
 
 

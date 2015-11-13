@@ -302,7 +302,7 @@ class Donor_class:
   #      print(self.email_address)
 
     def write_to_csv_file(self):
-        with open(os.path.join(os.path.dirname(sys.argv[0]), "Data\donor.csv"), 'a', newline='\n') as csvfile:
+        with open(os.path.join(os.path.dirname(sys.argv[0]), "Data/donor.csv"), 'a', newline='\n') as csvfile:
             write_to_donor_csv = csv.writer(csvfile)
             write_to_donor_csv.writerow([self.name,self.weight,
                                          self.date_of_birth[0:4]+"."+self.date_of_birth[5:7]+"."+self.date_of_birth[8:10],
