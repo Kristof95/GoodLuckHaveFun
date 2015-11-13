@@ -234,7 +234,7 @@ class Donation_class:
                 self.planned_donor_number,
                 #self.number_of_successful_donation
                 ]
-        with open(os.path.join(os.path.dirname(sys.argv[0]),"Data\donations.csv"), "a") as csv_file:
+        with open(os.path.join(os.path.dirname(sys.argv[0]),"Data/donations.csv"), "a") as csv_file:
 
             writer = csv.writer(csv_file)
             writer.writerow(data)
