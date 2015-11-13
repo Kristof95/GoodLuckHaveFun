@@ -7,6 +7,7 @@ import msvcrt
 import os
 import sys
 import csv
+import listing
 
 menu_choosen=['1','2','3','4','5','6','7']
 
@@ -41,6 +42,7 @@ def creat_menu():
     print("\t5. List Donors or Donation events")
     print("\t6. Search")
     print("\t7. Exit")
+    print("Choose one!")
     choosen=msvcrt.getwch()
     if choosen not in menu_choosen:
         creat_menu()
@@ -87,6 +89,16 @@ def menu_choose(choosen):
     elif choosen=='5':
         os.system('cls')
         print("List Donors or Donation events")
+        print("\t1. Donors")
+        print("\t2. Donation events")
+        print("Choose one!")
+        get=msvcrt.getwch()
+        if get=="1":
+            listing.list_donors()
+        elif get=="2":
+            listing.list_donations()
+        else:
+            menu_choose('5')
     elif choosen=='6':
         search_menu()
     elif choosen=='7':

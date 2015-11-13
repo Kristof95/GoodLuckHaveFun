@@ -104,16 +104,16 @@ def search_donation_event():
             length=len(hits)
             while page<length:
                 os.system('cls')
-                for i in range(0+page,page_row*7+page):
+                for i in range(0+page,page_row*5+page):
                     if i<length:
                         print(hits[i])
                     else:
                         break
                 key=msvcrt.getwch()
                 if key=='s':
-                    page+=page_row*7
+                    page+=page_row*5
                 if key=='w':
-                    page-=page_row*7
+                    page-=page_row*5
                     if page<0:
                         page=0
 
