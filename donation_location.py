@@ -228,7 +228,7 @@ class Donation_class:
         data = [my_random_string(6),
                 self.date_and_time_of_event,
                 self.start_time,
-                self.end_time
+                self.end_time,
                 self.zip_code,
                 self.city,
                 self.address,
