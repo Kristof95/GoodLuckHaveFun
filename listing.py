@@ -14,7 +14,7 @@ def list_donors():
     global size
     rows=size[1]
     with open(os.path.join(os.path.dirname(sys.argv[0]), "Data\donor.csv"), newline='') as csvfile:
-        search_file = csv.reader(csvfile, delimiter=',')
+        search_file = csv.reader(csvfile, delimiter=',',quotechar='"')
         for row in search_file:
             if row!="":
                 row_number+=1
@@ -63,7 +63,7 @@ def list_donations():
     global size
     rows=size[1]
     with open(os.path.join(os.path.dirname(sys.argv[0]), "Data\donations.csv"), newline='') as csvfile:
-        search_file = csv.reader(csvfile, delimiter=',')
+        search_file = csv.reader(csvfile, delimiter=',',quotechar='"')
         for row in search_file:
             if row!="":
                 row_number+=1

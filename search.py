@@ -17,7 +17,7 @@ def search_donor():
     global size
     rows=size[1]
     with open(os.path.join(os.path.dirname(sys.argv[0]), "Data\donor.csv"), newline='') as csvfile:
-        search_file = csv.reader(csvfile, delimiter=',')
+        search_file = csv.reader(csvfile, delimiter=',',quotechar='"')
         for row in search_file:
             row_number+=1
             found=0
@@ -76,7 +76,7 @@ def search_donation_event():
     global size
     rows=size[1]
     with open(os.path.join(os.path.dirname(sys.argv[0]), "Data\donations.csv"), newline='') as csvfile:
-        search_file = csv.reader(csvfile, delimiter=',')
+        search_file = csv.reader(csvfile, delimiter=',', quotechar='"')
         for row in search_file:
             row_number+=1
             found=0
