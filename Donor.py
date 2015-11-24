@@ -23,10 +23,11 @@ class Donor_class:
     date_format = ""
     age=0
     birth_date_string=""
+    hemoglobin=0
 
 
 # lists
-    was_sick_list = ('y', 'n')
+    was_sick_list = ('yes', 'no')
     gender_list = ('f', 'm')
     blood_type_list = ('+a','-a','+b','-b','+ab','-ab','+0','-0')
 
@@ -81,8 +82,8 @@ class Donor_class:
             print("Weight should be a positive integer!")
             return False
         elif int(self.weight)<50:
-            print("You are too light!")
-            return False
+            self.not_suitable("You are too light!")
+            return True
             #exit()
         return True
 
@@ -118,8 +119,8 @@ class Donor_class:
             print("I think you was born before now!")
             return False
         elif self.age<18:
-            print("You are too young, you need to be at least 18 years old.")
-            return False
+            self.not_suitable("You are too young, you need to be at least 18 years old.")
+            return True
             #exit()
         else:
             return True
@@ -143,8 +144,8 @@ class Donor_class:
             return False
         time_from_last_donation=(datetime.now()-donationdate).days
         if time_from_last_donation<90:
-            print("You need at least 90 days")
-            return False
+            self.not_suitable("You need at least 90 days from your last donation")
+            return True
         return True
 
     def get_last_donation_date(self):
@@ -157,20 +158,20 @@ class Donor_class:
 
     def check_was_sick(self):
         if self.was_sick.lower() not in self.was_sick_list:
-            print("You can choose between: y/n")
+            print("You can choose between: yes/no")
             return False
         return True
 
     def get_was_sick(self):
         while self.was_sick == "":
-            self.was_sick = input("Was he/she sick in the last month?(y/n):")
+            self.was_sick = input("Was he/she sick in the last month?(yes/no):")
             if self.was_sick == "":
                 print("Was he/she sick in the last month' cannot be empty!")
             elif not (self.check_was_sick()):
                 self.was_sick = ""
-            if self.was_sick == "y":
-                print("Sorry, you cannot be a donor!")
-                return False
+            if self.was_sick == "yes":
+                self.not_suitable("Sorry, you cannot be a donor!")
+                return True
                 #quit()
             return True
 
@@ -189,16 +190,15 @@ class Donor_class:
             print("This is passport!")
             #print("Passport card should be 6 letters and 2 digits!")
             return True
-        print("Identity card(6 digit + 2 letter) or passport card(6 letter + 2 digit)")
         return False
 
     def get_unique_id(self):
         while self.unique_id == "":
             self.unique_id = input("Identity card(6 digit + 2 letter) or passport card(6 letter + 2 digit):")
-        if self.unique_id == "":
-            print("ID field cannot be empty!")
-        elif not(self.check_unique_id()):
-            self.unique_id = ""
+            if self.unique_id == "":
+                print("ID field cannot be empty!")
+            elif not(self.check_unique_id()):
+                self.unique_id = ""
 
     def check_blood_type(self):
         if self.blood_type.lower() not in self.blood_type_list:
@@ -209,17 +209,17 @@ class Donor_class:
     def get_blood_type(self):
         while self.blood_type == "":
             self.blood_type = input("Blood type(a, b, ab, 0):")
-        if self.blood_type == "":
-            print("Blood type field cannot be empty!")
-        elif not self.check_blood_type():
-            self.blood_type = ""
+            if self.blood_type == "":
+                print("Blood type field cannot be empty!")
+            elif not self.check_blood_type():
+                self.blood_type = ""
 
 
     def valid_expiration_of_id(self):
         expiration=datetime.strptime(self.expiration_of_id, '%Y.%m.%d')
         if expiration<datetime.now():
-            print("Your ID has expired!")
-            return False
+            self.not_suitable("Your ID has expired!")
+            return True
             #exit()
         return True
 
@@ -247,10 +247,10 @@ class Donor_class:
     def get_email_address(self):
         while self.email_address == "":
             self.email_address = input("Email address:")
-        if self.email_address == "":
-            print("Email address field cannot be empty!")
-        elif not self.valid_email_address():
-            self.email_address = ""
+            if self.email_address == "":
+                print("Email address field cannot be empty!")
+            elif not self.valid_email_address():
+                self.email_address = ""
 
     def valid_mobile_number(self):
         if not (self.mobile_number.startswith("+36") or self.mobile_number.startswith("06")):
@@ -283,37 +283,40 @@ class Donor_class:
                 self.mobile_number = ""
 
     def get_hemoglobin(self):
-        if randint(80, 201) > 110:
+        self.hemoglobin=randint(80,201)
+        if self.hemoglobin > 110:
             print("Cool ! You're ready for donation.")
         else:
-            print("Your hemoglobin level is too low!")
-            time.sleep(2)
-            return False
+            self.not_suitable("Your hemoglobin level is too low!")
+            return True
         return True
             #quit()
-    def write_out_of_donor_datas(self):
-        name=self.parse_name()
-        if len(name)==2:
-            print(name[1], ",", name[0])
-        elif len(name)==3:
-            print(name[2],",",name[1],",",name[0])
-        print(str(self.weight),"kg")
-        print(self.date_of_birth[0:4],".",self.date_of_birth[5:7],".",self.date_of_birth[8:10],"-",self.age,"years old")
-        print(self.email_address)
+ #   def write_out_of_donor_datas(self):
+  #      name=self.parse_name()
+  #      if len(name)==2:
+  #          print(name[1], ",", name[0])
+  #      elif len(name)==3:
+  #          print(name[2],",",name[1],",",name[0])
+  #      print(str(self.weight),"kg")
+  #      print(self.date_of_birth[0:4],".",self.date_of_birth[5:7],".",self.date_of_birth[8:10],"-",self.age,"years old")
+  #      print(self.email_address)
 
     def write_to_csv_file(self):
-        with open(os.path.join(os.path.dirname(sys.argv[0]), "Data\donor.csv"), 'a', newline='\n') as csvfile:
+        if "," in self.email_address:
+            self.email_address="\""+self.email_address+"\""
+        self.unique_id=self.unique_id.lower()
+        with open(os.path.join(os.path.dirname(sys.argv[0]), "Data/donor.csv"), 'a', newline='\n') as csvfile:
             write_to_donor_csv = csv.writer(csvfile)
             write_to_donor_csv.writerow([self.name,self.weight,
                                          self.date_of_birth[0:4]+"."+self.date_of_birth[5:7]+"."+self.date_of_birth[8:10],
                                          self.age,self.last_donation_date,self.was_sick,self.gender,self.unique_id,
-                                         self.expiration_of_id,self.email_address,self.mobile_number])
+                                         self.expiration_of_id,self.email_address,self.blood_type,self.mobile_number,
+                                         self.hemoglobin])
 
-    def read_donor_from_csv_file(self):
+    def not_suitable(self,string):
+        print(string)
         pass
 
-    def delete_donor_from_csv_file(self):
-        pass
 
 
 def main():
@@ -326,9 +329,10 @@ def main():
     don.get_gender()
     don.get_unique_id()
     don.get_expiration_of_id()
+    don.get_blood_type()
     don.get_hemoglobin()
     don.get_email_address()
     don.get_mobile_number()
-    don.write_out_of_donor_datas()
+#   don.write_out_of_donor_datas()
     don.write_to_csv_file()
 
