@@ -16,7 +16,7 @@ def delete_donor_from_csv_file():
         delete_from_csv.truncate()
         delete_from_csv.close()
 
-        
+
 def delete_donations_from_csv_file():
     according_ID = input("Add ID which donation you want to delete:")
     delete_from_csv = open("Data\donations.csv", "r+")

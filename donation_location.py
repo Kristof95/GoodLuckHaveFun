@@ -23,6 +23,7 @@ class Donation_class:
     preparation_time = 30
     donation_time = 30
     maximum_donor_number=0
+    unique_id=""
 
     def __init__(self, date_and_time_of_event, start_time_text, end_time_text, zip_code, city, address, number_of_successful_donation, available_beds, planned_donor_number, available_cities):
         self.date_and_time_of_event = date_and_time_of_event
@@ -220,12 +221,15 @@ class Donation_class:
 
 
     def csv_writer(self):
+        if "," in self.address:
+            self.address="\""+self.address+"\""
         def my_random_string(string_length=10):
             random = str(uuid.uuid4())
             random = random.upper()
             random = random.replace("-","")
             return random[0:string_length]
-        data = [my_random_string(6),
+        self.unique_id=my_random_string(6)
+        data = [self.unique_id,
                 self.date_and_time_of_event,
                 self.zip_code,
                 self.city,
