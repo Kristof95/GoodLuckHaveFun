@@ -225,16 +225,18 @@ class Donation_class:
             random = random.upper()
             random = random.replace("-","")
             return random[0:string_length]
+        if "," in self.address:
+            self.address="\""+self.address+"\""
         data = [my_random_string(6),
                 self.date_and_time_of_event,
-                self.start_time,
-                self.end_time,
+                self.start_time_text,
+                self.end_time_text,
                 self.zip_code,
                 self.city,
                 self.address,
                 self.available_beds,
                 self.planned_donor_number,
-                #self.number_of_successful_donation
+                self.number_of_successful_donation
                 ]
         with open(os.path.join(os.path.dirname(sys.argv[0]),"Data/donations.csv"), "a") as csv_file:
 
@@ -253,8 +255,8 @@ def main():
     don.get_city()
     don.get_address()
     don.get_available_beds()
-    don.get_planned_donor_number()
     don.calculate_max_donor_number()
-    #don.get_number_of_successful_donation()
+    don.get_planned_donor_number()
+    don.get_number_of_successful_donation()
     #don.get_donation_success_rate()
     don.csv_writer()
