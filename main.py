@@ -53,7 +53,7 @@ def menu_choose(choosen):
     if choosen=='1':
         os.system('cls')
         print("New Donor")
-        Donor.main()
+        Donor.donor_main()
         print('1. New add donor')
         print('2. Back')
         add_end('donor')

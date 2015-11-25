@@ -5,6 +5,8 @@ import date_handle
 import csv
 import os
 import sys
+import msvcrt
+import main
 
 class Donor_class:
 
@@ -81,10 +83,9 @@ class Donor_class:
         elif int(self.weight) < 0:
             print("Weight should be a positive integer!")
             return False
-        elif int(self.weight)<50:
+        elif int(self.weight) < 50:
             self.not_suitable("You are too light!")
             return True
-            #exit()
         return True
 
 
@@ -100,7 +101,7 @@ class Donor_class:
 
     def check_gender(self):
         if self.gender.lower() not in self.gender_list:
-            print ("Only F or M")
+            print("Only F or M")
             return False
         return True
 
@@ -121,7 +122,6 @@ class Donor_class:
         elif self.age<18:
             self.not_suitable("You are too young, you need to be at least 18 years old.")
             return True
-            #exit()
         else:
             return True
 
@@ -172,8 +172,50 @@ class Donor_class:
             if self.was_sick == "yes":
                 self.not_suitable("Sorry, you cannot be a donor!")
                 return True
-                #quit()
             return True
+
+    # def delete_empty_lines(self):
+    #     with open("Data/donor.csv","r+") as f:
+    #         reader = csv.reader(f)
+    #         counter = 0
+    #         for line in reader:
+    #             if line != line.isspace():
+    #                 counter += 1
+
+
+
+    def add_unique_id_if_not_unique(self):
+        with open('Data\donor.csv', 'r+') as read:
+                reader = csv.reader(read)
+                for row in reader:
+                    if row[7].lower() == self.unique_id:
+                        print("This unique id is already living in database!\n")
+                        print("1. Did you miss type? ID again.")
+                        print("2. Add new Donor")
+                        print("3. Back to main menu\n")
+                        number=msvcrt.getwch()
+                        if number=="1":
+                            self.unique_id=""
+                            self.get_unique_id()
+                        elif number=="2":
+                            donor_main()
+                        elif number=="3":
+                            main.creat_menu()
+                        else:
+                            self.bad_input()
+
+
+    def bad_input(self):
+        print("Choose from above!")
+        number=msvcrt.getwch()
+        if number=="1":
+            self.get_unique_id()
+        elif number=="2":
+            donor_main()
+        elif number=="3":
+            main.creat_menu()
+        else:
+            self.bad_input()
 
     def check_unique_id(self):
         if (len(self.unique_id)) < 8:
@@ -182,23 +224,22 @@ class Donor_class:
         elif len(self.unique_id) > 8:
             print("Unique id is too long!")
             return False
-        elif self.unique_id[:6].isdigit() and  self.unique_id[6:].isalpha():
-            #print("Identity card should be 6 digits and 2 letters!")
+        elif self.unique_id[:6].isdigit() and self.unique_id[6:].isalpha():
             print("This is identity card!")
             return True
         elif self.unique_id[:6].isalpha() and self.unique_id[6:].isdigit():
             print("This is passport!")
-            #print("Passport card should be 6 letters and 2 digits!")
             return True
         return False
 
     def get_unique_id(self):
         while self.unique_id == "":
-            self.unique_id = input("Identity card(6 digit + 2 letter) or passport card(6 letter + 2 digit):")
+            self.unique_id = input("Identity card(6 digit + 2 letter) or passport card(6 letter + 2 digit):").lower()
             if self.unique_id == "":
                 print("ID field cannot be empty!")
             elif not(self.check_unique_id()):
                 self.unique_id = ""
+        self.add_unique_id_if_not_unique()
 
     def check_blood_type(self):
         if self.blood_type.lower() not in self.blood_type_list:
@@ -319,20 +360,19 @@ class Donor_class:
 
 
 
-def main():
+def donor_main():
     don = Donor_class("", "", "", "", "", "", "", "", "", "", "")
-    don.get_name()
-    don.get_weight()
-    don.get_birth_of_date()
-    don.get_last_donation_date()
-    don.get_was_sick()
-    don.get_gender()
+    # don.get_name()
+    # don.get_weight()
+    # don.get_birth_of_date()
+    # don.get_last_donation_date()
+    # don.get_was_sick()
+    # don.get_gender()
     don.get_unique_id()
-    don.get_expiration_of_id()
-    don.get_blood_type()
-    don.get_hemoglobin()
-    don.get_email_address()
-    don.get_mobile_number()
+    # don.get_expiration_of_id()
+    # don.get_blood_type()
+    # don.get_hemoglobin()
+    # don.get_email_address()
+    # don.get_mobile_number()
 #   don.write_out_of_donor_datas()
-    don.write_to_csv_file()
-
+#     don.write_to_csv_file()
