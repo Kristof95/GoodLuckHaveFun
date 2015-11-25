@@ -23,6 +23,7 @@ class Donation_class:
     preparation_time = 30
     donation_time = 30
     maximum_donor_number=0
+    unique_id=""
 
     def __init__(self, date_and_time_of_event, start_time_text, end_time_text, zip_code, city, address, number_of_successful_donation, available_beds, planned_donor_number, available_cities):
         self.date_and_time_of_event = date_and_time_of_event
@@ -219,15 +220,30 @@ class Donation_class:
                 self.end_time_text = ""
 
 
-    def csv_writer(self):
-        def my_random_string(string_length=10):
+    def get_unique_id(self):
+        self.unique_id=self.my_random_string(10)
+        with open("Data\donations.csv",'r') as read:
+            reader = csv.reader(read)
+            for row in reader:
+                if row[0] == self.unique_id:
+                    self.get_unique_id()
+
+
+
+    def my_random_string(self,string_length):
             random = str(uuid.uuid4())
             random = random.upper()
             random = random.replace("-","")
             return random[0:string_length]
+
+    def csv_writer(self):
         if "," in self.address:
             self.address="\""+self.address+"\""
-        data = [my_random_string(6),
+        self.get_unique_id()
+        with open(os.path.join(os.path.dirname(sys.argv[0]),"Data/donations.csv"), "a", newline='\n') as csv_file:
+
+            writer = csv.writer(csv_file)
+            writer.writerow([self.unique_id,
                 self.date_and_time_of_event,
                 self.start_time_text,
                 self.end_time_text,
@@ -237,11 +253,7 @@ class Donation_class:
                 self.available_beds,
                 self.planned_donor_number,
                 self.number_of_successful_donation
-                ]
-        with open(os.path.join(os.path.dirname(sys.argv[0]),"Data/donations.csv"), "a") as csv_file:
-
-            writer = csv.writer(csv_file)
-            writer.writerow(data)
+                ])
 
 
 
@@ -258,5 +270,5 @@ def main():
     don.calculate_max_donor_number()
     don.get_planned_donor_number()
     don.get_number_of_successful_donation()
-    #don.get_donation_success_rate()
+    don.get_donation_success_rate()
     don.csv_writer()
