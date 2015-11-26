@@ -9,6 +9,7 @@ import sys
 import csv
 import listing
 
+
 menu_choosen=['1','2','3','4','5','6','7']
 
 def first_init():
@@ -68,24 +69,10 @@ def menu_choose(choosen):
         os.system('cls')
         print("Delete Donor")
         delete_donation.delete_donor_from_csv_file()
-        print("1. Delete another one")
-        print("2. Back")
-        choosen=msvcrt.getwch()
-        if choosen=='1':
-            menu_choose(3)
-        elif choosen=='2':
-            creat_menu()
     elif choosen=='4':
         os.system('cls')
         print("Delete Donation event")
         delete_donation.delete_donations_from_csv_file()
-        print("1. Delete another one")
-        print("2. Back")
-        choosen=msvcrt.getwch()
-        if choosen=='1':
-            menu_choose(4)
-        elif choosen=='2':
-            creat_menu()
     elif choosen=='5':
         os.system('cls')
         print("List Donors or Donation events")
