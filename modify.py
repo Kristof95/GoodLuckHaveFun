@@ -14,7 +14,7 @@ donor_listing_order=[1,2,3,4,5,6,7,8,9,10,11,12,13]
 
 def donor_data_manager(lista):
     donor_data = Donor.create_class()
-    print("What you want to change?: \n"
+    print("What you want to change? \n"
                       "1. name\n"
                       "2. weight\n"
                       "3. date of birth\n"
@@ -28,7 +28,7 @@ def donor_data_manager(lista):
                       "11. blood type\n"
                       "12. mobile_number\n"
                       "13. hemoglobin_level\n")
-    order_donor=int(input())
+    order_donor=int(input("choosen:~# "))
     while order_donor not in donor_listing_order:
         print("choose from above")
         order_donor=int(input())
@@ -55,7 +55,7 @@ def donor_data_manager(lista):
         print("Old date of birth:"+lista[2])
         donor_data.get_birth_of_date()
         if save_or_not_answer()=="yes":
-            lista[2]=donor_data.birth_of_date
+            lista[2]=donor_data.date_of_birth
         else:
             return lista
 
@@ -120,9 +120,9 @@ def donor_data_manager(lista):
         ###emailadress#
     if order_donor == 10:
         print("Old email address:"+lista[9])
-        donor_data.get_email_adress()
+        donor_data.get_email_address()
         if save_or_not_answer()=="yes":
-            lista[9]=donor_data.email_adress
+            lista[9]=donor_data.email_address
         else:
             return lista
 
@@ -165,6 +165,10 @@ def save_or_not_answer():
     while answer not in possible_answers:
         print("Yes or No!")
         answer=input()
+    if answer == "yes":
+        print("Your change will be saved!")
+    else:
+        print("Won't be saved!")
     return answer
 
 def donor_data_modifier():
