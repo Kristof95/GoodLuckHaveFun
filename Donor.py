@@ -239,7 +239,7 @@ class Donor_class:
 
     def get_blood_type(self):
         while self.blood_type == "":
-            self.blood_type = input("Blood type(a, b, ab, 0):")
+            self.blood_type = input("Blood type(+a,-a,+b,-b,+ab,-ab,+0,-0):")
             if self.blood_type == "":
                 print("Blood type field cannot be empty!")
             elif not self.check_blood_type():
@@ -333,6 +333,7 @@ class Donor_class:
                                          self.age,self.last_donation_date,self.was_sick,self.gender,self.unique_id,
                                          self.expiration_of_id,self.email_address,self.blood_type,self.mobile_number,
                                          self.hemoglobin])
+            csvfile.close()
 
     def not_suitable(self,string):
         print(string)

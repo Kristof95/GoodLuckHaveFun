@@ -150,7 +150,7 @@ class Donation_class:
 
     def get_zip_code(self):
         while self.zip_code == "":
-            self.zip_code = input("Code:")
+            self.zip_code = input("Zip code:")
             if not (self.check_zip_code() and self.validate_zip_code()):
                 self.zip_code = ""
 
@@ -254,6 +254,7 @@ class Donation_class:
                 self.planned_donor_number,
                 self.number_of_successful_donation
                 ])
+            csv_file.close()
 
 
 
