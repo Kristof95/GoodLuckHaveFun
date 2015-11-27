@@ -256,7 +256,8 @@ class Donation_class:
                 ])
 
 
-
+def create_class():
+    return Donation_class("", "", "", "", "", "", "", "", "", "")
 
 
 def main():
