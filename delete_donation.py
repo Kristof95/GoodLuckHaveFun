@@ -2,6 +2,7 @@ import msvcrt
 import main
 
 def delete_donor_from_csv_file():
+    found=0
     del_according_ID = input('Add ID which you want to delete:').lower()
     del_according_ID = del_according_ID.lower()
     delete_from_csv = open("Data/donor.csv", "r+")
@@ -12,15 +13,19 @@ def delete_donor_from_csv_file():
         if del_according_ID!=splited[7].lower():
             delete_from_csv.write(i)
         else:
+            found+=1
             sure_about_delete(delete_from_csv,i)
     delete_from_csv.truncate()
     delete_from_csv.close()
+    if found==0:
+        print("ID not found")
     print('1. New delete')
     print('2. Back')
     end_of_delete('donor')
 
 
 def delete_donations_from_csv_file():
+    found=0
     according_ID = input("Add ID which donation you want to delete:").upper()
     according_ID = according_ID.upper()
     delete_from_csv = open("Data/donations.csv", "r+")
@@ -31,9 +36,12 @@ def delete_donations_from_csv_file():
         if according_ID!=splited[0]:
             delete_from_csv.write(i)
         else:
+            found+=1
             sure_about_delete(delete_from_csv,i)
     delete_from_csv.truncate()
     delete_from_csv.close()
+    if found==0:
+        print("ID not found")
     print('1. New delete')
     print('2. Back')
     end_of_delete('donation_event')
@@ -61,3 +69,5 @@ def end_of_delete(kind):
     else:
         print("Choose one!")
         end_of_delete(kind)
+
+

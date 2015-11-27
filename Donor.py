@@ -174,16 +174,6 @@ class Donor_class:
                 return True
             return True
 
-    # def delete_empty_lines(self):
-    #     with open("Data/donor.csv","r+") as f:
-    #         reader = csv.reader(f)
-    #         counter = 0
-    #         for line in reader:
-    #             if line != line.isspace():
-    #                 counter += 1
-
-
-
     def add_unique_id_if_not_unique(self):
         with open('Data\donor.csv', 'r+') as read:
                 reader = csv.reader(read)
@@ -331,16 +321,6 @@ class Donor_class:
             self.not_suitable("Your hemoglobin level is too low!")
             return True
         return True
-            #quit()
- #   def write_out_of_donor_datas(self):
-  #      name=self.parse_name()
-  #      if len(name)==2:
-  #          print(name[1], ",", name[0])
-  #      elif len(name)==3:
-  #          print(name[2],",",name[1],",",name[0])
-  #      print(str(self.weight),"kg")
-  #      print(self.date_of_birth[0:4],".",self.date_of_birth[5:7],".",self.date_of_birth[8:10],"-",self.age,"years old")
-  #      print(self.email_address)
 
     def write_to_csv_file(self):
         if "," in self.email_address:
@@ -358,21 +338,20 @@ class Donor_class:
         print(string)
         pass
 
-
-
+def create_class():
+    return Donor_class("", "", "", "", "", "", "", "", "", "", "")
 def donor_main():
     don = Donor_class("", "", "", "", "", "", "", "", "", "", "")
-    # don.get_name()
-    # don.get_weight()
-    # don.get_birth_of_date()
-    # don.get_last_donation_date()
-    # don.get_was_sick()
-    # don.get_gender()
+    don.get_name()
+    don.get_weight()
+    don.get_birth_of_date()
+    don.get_last_donation_date()
+    don.get_was_sick()
+    don.get_gender()
     don.get_unique_id()
-    # don.get_expiration_of_id()
-    # don.get_blood_type()
-    # don.get_hemoglobin()
-    # don.get_email_address()
-    # don.get_mobile_number()
-#   don.write_out_of_donor_datas()
-#     don.write_to_csv_file()
+    don.get_expiration_of_id()
+    don.get_blood_type()
+    don.get_hemoglobin()
+    don.get_email_address()
+    don.get_mobile_number()
+    don.write_to_csv_file()

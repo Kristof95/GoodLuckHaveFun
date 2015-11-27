@@ -8,9 +8,10 @@ import os
 import sys
 import csv
 import listing
+import modify
 
 
-menu_choosen=['1','2','3','4','5','6','7']
+menu_choosen=['1','2','3','4','5','6','7','8']
 
 def first_init():
     if os.path.isfile(os.path.join(os.path.dirname(os.sys.argv[0]), "Data\donor.csv")):
@@ -42,7 +43,8 @@ def creat_menu():
     print("\t4. Delete Donation event")
     print("\t5. List Donors or Donation events")
     print("\t6. Search")
-    print("\t7. Exit")
+    print("\t7. Donor modifying")
+    print("\t8. Exit")
     print("Choose one!")
     choosen=msvcrt.getwch()
     if choosen not in menu_choosen:
@@ -89,6 +91,8 @@ def menu_choose(choosen):
     elif choosen=='6':
         search_menu()
     elif choosen=='7':
+        modify.donor_data_modifier()
+    elif choosen=='8':
         os.system('exit')
     else:
         print("You must choose one!")
