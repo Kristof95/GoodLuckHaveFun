@@ -9,4 +9,4 @@ Vas Richárd Roland
 Bodnár Kristóf
 
 Blood Donor Datas Registration Script
-Blood Donation Event Datas Registration Script
+// Blood Donation Event Datas Registration Script
